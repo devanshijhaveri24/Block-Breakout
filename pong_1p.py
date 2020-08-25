@@ -1,5 +1,6 @@
 import turtle
 import random
+import time
 import winsound
 
 # Screen
@@ -45,13 +46,15 @@ pen.write("Lives: 3   Score: 0", align="center", font=('Courier', 24, 'normal'))
 #Functions
 def paddle_right():
     x = paddle.xcor()
-    x+=20
-    paddle.setx(x)
+    if x<351:
+        x+=20
+        paddle.setx(x)
 
 def paddle_left():
     x = paddle.xcor()
-    x-=20
-    paddle.setx(x)
+    if x>-351:
+        x-=20
+        paddle.setx(x)
 
 def falling_block():
     for block in block_list:
@@ -88,8 +91,19 @@ block_count = len(block_list)
     
     
 
+#pen
+pent = turtle.Turtle()
+pent.speed(0)
+pent.color("blue")
+pent.penup()
+pent.hideturtle()
+pent.goto(0,0)
+pent.write("Use the right and left key to play! \n The game starts in 3...2...1", align="center", font=('Courier', 24, 'normal'))
+pent.clear()
+time.sleep(3)
 while lives>0 and block_count>0:
     wnd.update()
+    
     falling_block()
 
     #Move the ball
@@ -110,6 +124,7 @@ while lives>0 and block_count>0:
         pen.write("Lives: {}  Score: {}".format(lives, score), align="center", font=('Courier', 24, 'normal'))
         ball.dy *= -1
         winsound.PlaySound("Bouncy_Bounce-Bugs_Bunny-1735935456.wav", winsound.SND_ASYNC)
+        time.sleep(1)
 
     if ball.xcor() > 390:
         ball.setx(390)
@@ -127,7 +142,7 @@ while lives>0 and block_count>0:
         ball.dy *= -0.95
         winsound.PlaySound("Bouncy_Bounce-Bugs_Bunny-1735935456.wav", winsound.SND_ASYNC)
 
-        
+    #Block and ball collisions
 
     for block in block_list:
                 
@@ -149,4 +164,5 @@ while lives>0 and block_count>0:
 #Game Over
 pen.clear()
 pen.goto(0,0)
-pen.write('GAME OVER\nScore: {}'.format(score), align='center', font=('Courier', 40, 'normal'))
+pen.write('GAME OVER! \n Score: {}'.format(score), align='center', font=('Courier', 27, 'normal'))
+time.sleep(1)
